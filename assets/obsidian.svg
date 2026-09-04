@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="&quot;Segoe UI&quot;,&quot;Microsoft YaHei&quot;,&quot;PingFang SC&quot;,sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151b33"/><stop offset="1" stop-color="#0c101f"/></linearGradient>
+    <linearGradient id="accGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e67e22"/><stop offset="1" stop-color="#8e44ad"/></linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#e67e22"/></marker>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bgGrad)"/>
+  <text x="40" y="92" font-size="46" font-weight="700" fill="#f2f4fb">文章发布流水线</text>
+  <text x="40" y="140" font-size="26" fill="#8b94b8">Obsidian 写作 → Git 推送 → GitHub Actions 构建 → GitHub Pages 上线</text>
+  <g>
+    <rect x="28" y="340" width="280" height="180" rx="18" fill="#1b2239" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="72" cy="384" r="22" fill="url(#accGrad)"/>
+    <text x="72" y="391" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+    <text x="168" y="448" font-size="36" font-weight="700" fill="#f2f4fb" text-anchor="middle">Obsidian</text>
+    <text x="168" y="492" font-size="26" fill="#9aa3c0" text-anchor="middle">打开 articles/ 写文章</text>
+  </g>
+    <line x1="312" y1="430" x2="340" y2="430" stroke="#e67e22" stroke-width="3" marker-end="url(#arr)"/>
+  <g>
+    <rect x="344" y="340" width="280" height="180" rx="18" fill="#1b2239" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="388" cy="384" r="22" fill="url(#accGrad)"/>
+    <text x="388" y="391" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+    <text x="484" y="448" font-size="36" font-weight="700" fill="#f2f4fb" text-anchor="middle">Obsidian Git</text>
+    <text x="484" y="492" font-size="26" fill="#9aa3c0" text-anchor="middle">保存即自动推送</text>
+  </g>
+    <line x1="628" y1="430" x2="656" y2="430" stroke="#e67e22" stroke-width="3" marker-end="url(#arr)"/>
+  <g>
+    <rect x="660" y="340" width="280" height="180" rx="18" fill="#1b2239" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="704" cy="384" r="22" fill="url(#accGrad)"/>
+    <text x="704" y="391" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+    <text x="800" y="448" font-size="36" font-weight="700" fill="#f2f4fb" text-anchor="middle">GitHub</text>
+    <text x="800" y="492" font-size="26" fill="#9aa3c0" text-anchor="middle">main 分支收到提交</text>
+  </g>
+    <line x1="944" y1="430" x2="972" y2="430" stroke="#e67e22" stroke-width="3" marker-end="url(#arr)"/>
+  <g>
+    <rect x="976" y="340" width="280" height="180" rx="18" fill="#1b2239" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="1020" cy="384" r="22" fill="url(#accGrad)"/>
+    <text x="1020" y="391" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+    <text x="1116" y="448" font-size="36" font-weight="700" fill="#f2f4fb" text-anchor="middle">GitHub Actions</text>
+    <text x="1116" y="492" font-size="26" fill="#9aa3c0" text-anchor="middle">构建并发布站点</text>
+  </g>
+    <line x1="1260" y1="430" x2="1288" y2="430" stroke="#e67e22" stroke-width="3" marker-end="url(#arr)"/>
+  <g>
+    <rect x="1292" y="340" width="280" height="180" rx="18" fill="#1b2239" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+    <circle cx="1336" cy="384" r="22" fill="url(#accGrad)"/>
+    <text x="1336" y="391" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+    <text x="1432" y="448" font-size="36" font-weight="700" fill="#f2f4fb" text-anchor="middle">GitHub Pages</text>
+    <text x="1432" y="492" font-size="26" fill="#9aa3c0" text-anchor="middle">网站自动更新</text>
+  </g>
+  <text x="800" y="846" font-size="32" fill="#c7cee4" text-anchor="middle" letter-spacing="2">本地写作 → 云端发布：全程零代码、零手动上传</text>
+</svg>

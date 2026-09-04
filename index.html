@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="突然做的个人主页">
+  <title>Loading...</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <main id="top">
+
+    <!-- ======== 头部：玻璃卡片（头像 + 信息 + 时钟） ======== -->
+    <section class="profile reveal" id="profileSection" aria-label="个人简介">
+      <div class="profile-avatar" id="profileAvatar" aria-hidden="true">D</div>
+      <div class="profile-info">
+        <h1 class="profile-name" id="profileName">我是谁</h1>
+        <p class="profile-role" id="profileRole">爱因斯坦万岁</p>
+        <div class="profile-links" id="profileLinks">
+          <a class="profile-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+          <a class="profile-link" href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a>
+          <a class="profile-link" href="mailto:" rel="noopener">邮箱</a>
+        </div>
+      </div>
+      <div class="clock" id="clock">
+        <span class="clock-time" id="clockTime">--:--:--</span>
+        <span class="clock-date" id="clockDate"></span>
+        <span class="clock-articles">已更新文章 <b id="articleCount">0</b> 篇</span>
+      </div>
+    </section>
+
+    <!-- ======== 文章列表 ======== -->
+    <section class="section articles" id="articles" aria-label="文章列表">
+      <div class="section-head reveal">
+        <h2 class="section-title">文章</h2>
+      </div>
+      <div class="article-grid" id="articleGrid"></div>
+    </section>
+
+    <!-- ======== 文章详情（点击卡片进入，隐藏） ======== -->
+    <section class="article-view" id="articleView" hidden aria-label="文章详情">
+      <div class="article-view-inner">
+        <a class="back-link" href="#/">← 返回文章列表</a>
+        <header class="article-header">
+          <span class="article-cat" id="avCat"></span>
+          <span class="article-date" id="avDate"></span>
+        </header>
+        <h1 class="article-title-big" id="avTitle"></h1>
+        <div class="article-content" id="avBody"></div>
+        <nav class="article-pager" id="articlePager" aria-label="文章导航"></nav>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="back-top" id="backTop" type="button" aria-label="回到顶部">↑</button>
+
+  <script src="js/config.js"></script>
+  <script>
+    /* KaTeX 公式渲染：多 CDN 自动回退加载，提升弱网/国内可用性 */
+    (function () {
+      "use strict";
+      var BASES = [
+        "https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.9",
+        "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9",
+        "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist",
+        "https://unpkg.com/katex@0.16.9/dist"
+      ];
+      var DELIMS = [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "$", right: "$", display: false }
+      ];
+      var pending = [];
+      window.KATEX_READY = false;
+
+      function loadCss(href) {
+        var l = document.createElement("link");
+        l.rel = "stylesheet";
+        l.href = href;
+        document.head.appendChild(l);
+      }
+      function loadScript(src) {
+        return new Promise(function (resolve) {
+          if (src.indexOf("katex.min.js") > -1 && window.katex) { resolve(true); return; }
+          if (src.indexOf("auto-render") > -1 && window.renderMathInElement) { resolve(true); return; }
+          var s = document.createElement("script");
+          s.src = src;
+          s.onload = function () { resolve(true); };
+          s.onerror = function () { resolve(false); };
+          document.head.appendChild(s);
+          setTimeout(function () { resolve(false); }, 6000);
+        });
+      }
+      function doRender(el) {
+        try { window.renderMathInElement(el, { delimiters: DELIMS, throwOnError: false }); } catch (e) {}
+      }
+      function tryBase(base) {
+        if (window.KATEX_READY) return Promise.resolve(true);
+        loadCss(base + "/katex.min.css");
+        return loadScript(base + "/katex.min.js").then(function (ok) {
+          if (!ok) return false;
+          return loadScript(base + "/contrib/auto-render.min.js").then(function (ok2) {
+            if (!ok2 || typeof window.renderMathInElement !== "function") { return false; }
+            window.KATEX_READY = true;
+            for (var j = 0; j < pending.length; j++) { doRender(pending[j]); }
+            pending = [];
+            return true;
+          });
+        });
+      }
+      function attempt(i) {
+        if (i >= BASES.length) { return; }
+        tryBase(BASES[i]).then(function (ok) {
+          if (!ok) { attempt(i + 1); }
+        });
+      }
+      window.katexRender = function (el) {
+        if (window.KATEX_READY) { doRender(el); } else { pending.push(el); }
+      };
+      attempt(0);
+    })();
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

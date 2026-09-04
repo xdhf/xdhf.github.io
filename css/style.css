@@ -1,0 +1,803 @@
+/* ============================================================
+   统一深色磨砂玻璃风格 · 纯 CSS · 无框架依赖
+   ============================================================ */
+
+/* ---------- 主题变量 ---------- */
+:root {
+  /* 恒星主色 */
+  --star: #e8a020;
+  --star-bright: #f5c04a;
+  /* 群星辅色 */
+  --cluster: #4f6ef7;
+
+  --font-main: "MiSans", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --bg: #0b1020;
+  --text: #e6e9f5;
+  --text-soft: #9aa5c3;
+  --text-faint: #8b96b4;
+  --line-strong: rgba(230, 233, 245, 0.2);
+  --chip-text: #9db0ff;
+
+  /* 全页背景上的蒙层 */
+  --overlay-top: rgba(11, 16, 32, 0.14);
+  --overlay-mid: rgba(11, 16, 32, 0.11);
+  --overlay-bottom: rgba(11, 16, 32, 0.22);
+
+  /* 毛玻璃透明卡片 */
+  --glass: rgba(18, 25, 54, 0.36);
+  --glass-strong: rgba(18, 25, 54, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.42);
+  /* 长文本容器（文章详情）专用底色：不用 backdrop-filter 模糊，
+     改为更实一点的深色，既保可读性又保证长页滚动流畅 */
+  --glass-panel: rgba(14, 20, 42, 0.82);
+}
+
+/* ---------- 基础 ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(180deg, var(--overlay-top) 0%, var(--overlay-mid) 46%, var(--overlay-bottom) 100%),
+    url("../assets/bg-vangogh.jpg");
+  background-size: cover, cover;
+  background-position: center, center 30%;
+  background-attachment: scroll, fixed;
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: rgba(232, 160, 32, 0.35);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--star);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ============================================================
+   实时时钟（档案卡上方，居中，无玻璃卡片）
+   ============================================================ */
+.clock {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.clock-time {
+  font-size: clamp(48px, 8.5vw, 88px);
+  font-weight: 700;
+  letter-spacing: 6px;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  line-height: 1.05;
+}
+
+.clock-date {
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  color: #f2c14e;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+.clock-articles {
+  margin-top: 6px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #c8cfe6;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+.clock-articles b {
+  color: var(--star-bright);
+  font-weight: 700;
+}
+
+/* ============================================================
+   头部（玻璃卡片：头像在左，右侧 名字/身份/社交）
+   ============================================================ */
+.profile {
+  width: calc(100% - 48px);
+  max-width: 1180px;
+  margin: clamp(64px, 14vh, 150px) auto 0;
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  padding: 28px 40px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+}
+
+.profile-avatar {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #1a1405;
+  background: linear-gradient(135deg, var(--star-bright), var(--star));
+  box-shadow: 0 8px 26px rgba(232, 160, 32, 0.45), inset 0 0 0 4px rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.profile-name {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: #ffffff;
+}
+
+.profile-role {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: #aab4d6;
+}
+
+.profile-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  margin-top: 10px;
+}
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  font-family: inherit;
+  line-height: 1;
+  color: #ffffff;
+  background: rgba(13, 20, 40, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+  transition: all var(--transition);
+}
+
+.profile-link:hover {
+  color: #1a1405;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--star-bright), var(--star));
+  transform: translateY(-2px);
+}
+
+.profile-link .ico {
+  display: block;
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+/* 复制成功提示（Toast） */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 44px;
+  transform: translate(-50%, 16px);
+  z-index: 200;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  font-size: 14px;
+  box-shadow: var(--glass-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ============================================================
+   通用区块
+   ============================================================ */
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 56px 24px;
+}
+
+.section-head {
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.section-title {
+  font-size: clamp(24px, 3.4vw, 32px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  display: inline-block;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 46px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--star), var(--cluster));
+}
+
+.section-sub {
+  margin-top: 18px;
+  color: var(--text-soft);
+  font-size: 14.5px;
+}
+
+/* ============================================================
+   文章卡片（标题在左 + 封面小图在右上，顶部分类/日期）
+   ============================================================ */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--glass);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 18px 20px 20px;
+  box-shadow: var(--glass-shadow);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.article-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+  border-color: var(--star);
+}
+
+/* 顶行：分类（左） + 日期（右） */
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.card-cat {
+  color: var(--chip-text);
+  font-weight: 600;
+}
+
+.card-date {
+  letter-spacing: 0.4px;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+/* 主体：标题（左） + 封面（右） */
+.card-top {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.card-title {
+  flex: 1;
+  font-size: 16.5px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.card-title a {
+  transition: color var(--transition);
+}
+
+.card-title a:hover {
+  color: var(--star);
+}
+
+/* 卡片小封面：thumb 图片 / 渐变 + Emoji */
+.card-cover {
+  position: relative;
+  flex-shrink: 0;
+  width: 96px;
+  height: 88px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.card-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1.5px);
+  background-size: 16px 16px;
+  opacity: 0.5;
+}
+
+.card-cover span {
+  font-size: 36px;
+  filter: drop-shadow(0 5px 14px rgba(0, 0, 0, 0.3));
+  transition: transform var(--transition);
+  z-index: 1;
+}
+
+.article-card:hover .card-cover span {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+/* 卡片小封面：有 thumb 图片时显示图片 */
+.card-cover img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-cover.has-img::before {
+  display: none;
+}
+
+/* 摘要 */
+.card-excerpt {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================================
+   回到顶部
+   ============================================================ */
+.back-top {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 90;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-strong);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: var(--glass-shadow);
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: all var(--transition);
+}
+
+.back-top.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-top:hover {
+  background: linear-gradient(135deg, var(--star-bright), var(--star));
+  color: #1a1405;
+  border-color: transparent;
+}
+
+/* ============================================================
+   滚动显现动画
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   文章详情
+   ============================================================ */
+.article-view {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.article-view-inner {
+  /* 详情容器会包裹整篇正文，可能非常长。
+     在此元素上使用 backdrop-filter blur 会导致滚动时每帧都对固定背景
+     重新做一次模糊，产生明显卡顿；因此这里改用更实一点的底色，
+     视觉上仍是深色玻璃卡片，但滚动流畅得多。 */
+  background: var(--glass-panel);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+  padding: 30px 34px 40px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13.5px;
+  color: var(--text-soft);
+  margin-bottom: 22px;
+  transition: color var(--transition);
+}
+
+.back-link:hover {
+  color: var(--star);
+}
+
+.article-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+}
+
+.article-cat {
+  color: var(--chip-text);
+  font-weight: 600;
+}
+
+.article-date {
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.article-title-big {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 22px;
+}
+
+/* 正文排版 */
+.article-content {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  margin: 1.4em 0 0.6em;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.article-content h1 { font-size: 1.6em; }
+.article-content h2 { font-size: 1.4em; }
+.article-content h3 { font-size: 1.2em; }
+.article-content h4 { font-size: 1.05em; }
+
+.article-content p {
+  margin: 0 0 1em;
+}
+
+.article-content a {
+  color: var(--star);
+  border-bottom: 1px solid rgba(232, 160, 32, 0.4);
+}
+
+.article-content a:hover {
+  border-bottom-color: var(--star);
+}
+
+.article-content ul,
+.article-content ol {
+  margin: 0 0 1em 1.4em;
+}
+
+.article-content li {
+  margin-bottom: 0.35em;
+}
+
+.article-content blockquote {
+  margin: 1em 0;
+  padding: 0.6em 1.1em;
+  border-left: 3px solid var(--star);
+  background: var(--glass-strong);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-soft);
+}
+
+.article-content code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-border);
+  padding: 0.1em 0.4em;
+  border-radius: 5px;
+}
+
+.article-content pre {
+  background: rgba(0, 0, 0, 0.35);
+  color: #e6e9f5;
+  padding: 16px 18px;
+  border-radius: var(--radius-sm);
+  overflow: auto;
+  margin: 0 0 1em;
+  line-height: 1.6;
+}
+
+.article-content pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+
+.article-content img {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  display: block;
+  margin: 1em auto;
+}
+
+.article-content hr {
+  border: 0;
+  height: 1px;
+  background: var(--glass-border);
+  margin: 1.6em 0;
+}
+
+/* GFM 管道表格：容器负责窄屏横向滚动 */
+.article-content .table-wrap {
+  margin: 0 0 1em;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.article-content table {
+  border-collapse: collapse;
+  min-width: 100%;
+  font-size: 0.95em;
+  line-height: 1.65;
+}
+
+.article-content th,
+.article-content td {
+  border: 1px solid var(--glass-border);
+  padding: 0.5em 0.9em;
+  vertical-align: top;
+}
+
+.article-content thead th {
+  background: rgba(232, 160, 32, 0.13);
+  color: var(--star-bright);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.article-content tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.article-content tbody tr:hover {
+  background: rgba(232, 160, 32, 0.06);
+}
+
+/* KaTeX 公式：过长时允许横向滚动，避免撑破或超出正文容器 */
+.article-content .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 2px;
+}
+
+/* 上一篇 / 下一篇 */
+.article-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 30px;
+  border-top: 1px dashed var(--glass-border);
+  padding-top: 22px;
+}
+
+.pager-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 48%;
+  padding: 12px 16px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: var(--glass);
+  transition: all var(--transition);
+}
+
+a.pager-item:hover {
+  border-color: var(--star);
+  transform: translateY(-2px);
+}
+
+.pager-next {
+  text-align: right;
+}
+
+.pager-label {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.pager-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.45;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.pager-empty {
+  opacity: 0.45;
+}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 860px) {
+  .section {
+    padding: 56px 18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .clock-time {
+    font-size: 32px;
+  }
+
+  .profile {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 24px 22px;
+  }
+
+  .profile-info {
+    align-items: center;
+  }
+
+  .profile-name {
+    font-size: 24px;
+  }
+
+  .profile-links {
+    justify-content: center;
+  }
+
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 动效减弱偏好 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
