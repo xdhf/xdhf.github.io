@@ -12,7 +12,7 @@ tags:
 thumb: assets/HPC.png
 ---
 
-![](assets/HPC.pNg)
+![](assets/HPC.png)
 
 *图 1：技术路线图*
 
