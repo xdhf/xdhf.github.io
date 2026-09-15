@@ -1,5 +1,6 @@
 ---
 title: 面向受限接入环境的 HPC / Slurm 自动化工作流设计
+category: HPC
 date: 2026-09-15
 tags:
   - hpc
