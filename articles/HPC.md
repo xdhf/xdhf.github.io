@@ -11,6 +11,7 @@ tags:
   - sftp
   - conda
 thumb: assets/HPC.png
+excerpt: 设计一套围绕 Slurm 构建的用户侧自动化工作流，使 HPC 使用过程更加稳定、清晰并具备可复现性。
 ---
 
 ![](assets/HPC.png)
