@@ -25,6 +25,10 @@ excerpt: 面向实验小鼠行为分析，针对 FaceGrooming、BodyGrooming 与
 
 ## 2. FaceGrooming：面部理毛
 
+![](assets/facegrooming.png)
+
+*图 1：FaceGrooming
+
 ### 2.1 行为特征
 
 FaceGrooming 的主要表现为：**前爪在鼻部及面部附近进行高频、小幅度的相对运动**。

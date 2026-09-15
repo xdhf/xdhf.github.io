@@ -6,7 +6,7 @@
  */
 window.SITE_CONFIG = {
   /* ---------- 站点名称与作者 ---------- */
-  siteName: "不想上班~~",        // 站点名（用于浏览器标题等）
+  siteName: "~dhf: index",        // 站点名（用于浏览器标题等）
   author: "H.F. Deng",          // 称呼（显示在个人档案区）
   avatarText: "D",            // 头像占位文字（建议取昵称首字）
   avatarImage: "assets/avatar.jpg",  // 头像图片（相对站点根目录；留空则显示上面 avatarText 的首字）
