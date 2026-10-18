@@ -176,8 +176,21 @@
     };
   }
 
+  // 从 articles/list.json 读取文章文件名列表（同源静态文件，最可靠）
+  function listFromJson() {
+    return fetch("articles/list.json", { cache: "no-store" })
+      .then(function (r) {
+        if (!r.ok) throw new Error("list.json not found");
+        return r.json();
+      })
+      .then(function (names) {
+        if (!Array.isArray(names)) throw new Error("list.json 格式错误");
+        return names.filter(function (n) { return typeof n === "string" && /\.md$/i.test(n); });
+      });
+  }
+
+  // 回退：用 GitHub API 自动列出 articles/ 目录（仅当 list.json 缺失/不可读时使用）
   function listFromGithub() {
-    // 部署在 GitHub Pages 时：用 GitHub API 自动列出 articles/ 目录，新增 .md 无需改 list.json
     return fetch("https://api.github.com/repos/" + CFG.githubRepo + "/contents/articles")
       .then(function (r) {
         if (!r.ok) throw new Error("github api failed");
@@ -191,23 +204,12 @@
   }
 
   function loadArticles() {
-    var namesPromise;
-    if (CFG.githubRepo) {
-      // 配置了 githubRepo：优先走 GitHub API；失败（如离线/本地）则回退 list.json
-      namesPromise = listFromGithub().catch(function () {
-        return fetch("articles/list.json", { cache: "no-store" })
-          .then(function (r) {
-            if (!r.ok) throw new Error("list.json not found");
-            return r.json();
-          });
-      });
-    } else {
-      namesPromise = fetch("articles/list.json", { cache: "no-store" })
-        .then(function (r) {
-          if (!r.ok) throw new Error("list.json not found");
-          return r.json();
-        });
-    }
+    // 优先读取同源的 articles/list.json（部署到 GitHub Pages 后始终可用且不被限流）；
+    // 仅在 list.json 缺失时才尝试 GitHub API 自动列举。
+    var namesPromise = listFromJson().catch(function () {
+      if (CFG.githubRepo) return listFromGithub();
+      throw new Error("无法获取文章列表");
+    });
 
     return namesPromise.then(function (names) {
       return Promise.all(names.map(function (name) {
