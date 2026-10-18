@@ -170,9 +170,7 @@
       emoji: meta.emoji || "📄",
       colors: (meta.colors && meta.colors.length === 2) ? meta.colors : ["#4f6ef7", "#2b3f8f"],
       thumb: meta.thumb || meta.cover || meta.image || "",
-      excerpt: meta.excerpt || markdownExcerpt(body),
-      tags: meta.tags || [],
-      href: meta.href || "#"
+      excerpt: meta.excerpt || markdownExcerpt(body)
     };
   }
 
@@ -247,7 +245,7 @@
 
     grid.innerHTML = list.map(function (a, i) {
       var colors = (a.colors && a.colors.length === 2 ? a.colors : ["#4f6ef7", "#2b3f8f"]).join(", ");
-      var href = a.slug ? ("#/article/" + a.slug) : (a.href || "#");
+      var href = "#/article/" + a.slug;
       var coverInner = a.thumb
         ? '<img src="' + a.thumb + '" alt="' + a.title + '">'
         : '<span>' + a.emoji + '</span>';

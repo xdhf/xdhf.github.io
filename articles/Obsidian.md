@@ -41,7 +41,6 @@ Obsidian 在这里的角色是**Markdown 编辑器**：配合 Git 插件做到�
 title: 用 Obsidian 更新本站
 category: 站点
 date: 2026-09-03
-tags: [Obsidian, GitHub Pages]
 thumb: assets/小封面图.png
 emoji: 🎨
 colors: ["#4f6ef7", "#2b3f8f"]
@@ -54,13 +53,12 @@ excerpt: 本站的每篇文章就是一个 Markdown 文件。在 Obsidian 里写
 - `title`（必填）：文章标题，显示在卡片与详情页顶部；
 - `category`（推荐）：显示在卡片左上角的分类小标签；
 - `date`（推荐）：写成 `YYYY-MM-DD`，文章按它从新到旧排序；
-- `tags`：标签数组，供归档检索用；
 - `thumb`（可选）：卡片右上角的小封面缩略图（相对站点根目录，约 4:3 小图）；不填则卡片显示默认 emoji＋渐变占位；
 - `emoji`（可选）：无 thumb 时的图标；
 - `colors`（可选）：无 thumb 时的渐变底色；
 - `excerpt`：卡片摘要（可省，不写就自动截取正文开头 120 字左右）。
 
-> **务必保持元信息为单行「键: 值」。** 本站用极简解析器读取 front matter；如果改用 Obsidian 的“属性面板”把 `tags` 编辑成列表型，Obsidian 会存成多行 `- 条目` 的 YAML，本站将读不到标签。稳妥做法：元信息在**源码模式**下照上面模板手写，正文再用所见即所得编辑。
+> **务必保持元信息为单行「键: 值」。** 本站用极简解析器读取 front matter；如果改用 Obsidian 的“属性面板”把字段编辑成列表型，Obsidian 会存成多行 `- 条目` 的 YAML，本站将读不到。稳妥做法：元信息在**源码模式**下照上面模板手写，正文再用所见即所得编辑。
 
 ## 四、正文
 
