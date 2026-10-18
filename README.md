@@ -24,8 +24,10 @@
 │   ├── bg-vangogh.jpg    # 全页背景图
 │   └── avatar.jpg        # 头像
 ├── articles/         # 文章（Markdown，主数据源）
-│   ├── list.json     # 文章清单（配置 githubRepo 后不再需要维护）
+│   ├── list.json     # 文章清单（部署时脚本自动生成，无需手动维护）
 │   └── *.md          # 每篇文章一个文件（front matter + 正文）
+├── scripts/
+│   └── gen-list.js   # 扫描 articles/*.md 自动生成 list.json
 ├── css/
 │   └── style.css     # 全部样式（变量 + 玻璃卡片）
 ├── js/
@@ -48,7 +50,7 @@
 | `avatarImage` | 头像图片路径（相对站点根目录） |
 | `role` | 身份 / 角色（显示在称呼下方） |
 | `github` / `orcid` / `email` | 档案区三个链接：GitHub、ORCID 点击跳转；邮箱点击复制到剪贴板（仅填地址） |
-| `githubRepo` | 如 `"用户名/仓库名"`；填上并部署到 GitHub Pages 后，新增文章无需改 `list.json`（自动列出），留空则用 `articles/list.json` |
+| `githubRepo` | 如 `"用户名/仓库名"`；文章清单由 `articles/list.json` 提供，部署时脚本自动生成 |
 
 ### 2. `articles/*.md` —— 文章（Markdown）
 
@@ -67,15 +69,15 @@ excerpt: 可选的摘要（不写则自动取正文开头）
 这里是正文，支持 Markdown 语法。
 ```
 
-- **新增文章**：把新的 `.md` 放进 `articles/`，并把文件名追加到 `articles/list.json`（数组顺序即展示顺序）。
-- **修改/删除文章**：直接编辑或删除对应 `.md`，再同步 `list.json`。
+- **新增文章**：把新的 `.md` 放进 `articles/` 即可，`list.json` 会在部署时由 `scripts/gen-list.js` 自动生成（无需手动改）。
+- **修改/删除文章**：直接编辑或删除对应 `.md`，`list.json` 会自动同步。
 - 字段说明：`title` 标题、`category` 分类、`date` 日期、`tags` 标签、`thumb` **卡片右上角小封面缩略图**（可选，相对站点根目录；不填则卡片用默认 emoji＋渐变）、`excerpt` 摘要（可省）、`href` 链接（可省）。
 
 ### 文章详情页
 
 点击任意文章卡片即可进入详情页：顶部不单独放封面横幅，直接显示标题与正文；正文里的图片 `![]()` 原样显示。卡片右上角的小封面用 front matter 的 `thumb` 字段（可选）。支持返回、Markdown 常用语法（标题、列表、引用、代码块、图片、链接、加粗/斜体等），以及 **LaTeX 数学公式**（`$...$` 行内、`$$...$$` 独立成行，由 KaTeX 渲染）。
 
-> 文章完全以 `articles/` 目录下的 Markdown 文件为准：删除某篇的 `.md` 并从 `list.json`（若用）移除该文件名，即从站点消失。文章不依赖 `file://` 之外的任何兜底数据源。
+> 文章完全以 `articles/` 目录下的 Markdown 文件为准：删除某篇的 `.md`，该文件即从站点消失（`list.json` 在部署时自动重新生成）。文章不依赖 `file://` 之外的任何兜底数据源。
 
 > **卡片小封面提示**：卡片右上角的小缩略图使用 `object-fit: cover` 居中裁剪（**不会拉伸变形**）。建议提供约 4:3 的小图；不填 `thumb` 字段时显示默认 emoji＋渐变占位。
 
@@ -118,11 +120,17 @@ git push -u origin main
 2. 该插件设置里开启自动备份；
 3. 之后每次保存（或在 Obsidian 中执行 `Ctrl+P → Obsidian Git: Push`），改动自动推到 GitHub → Pages 自动更新。
 
-### 4. 新增文章无需改 `list.json`
+### 4. 新增文章无需手动改 `list.json`
 
-在 `js/config.js` 填好 `githubRepo`（如 `"heiiiiiii/my-site"`，即 用户名/仓库名）并部署后，
-页面会通过 GitHub API 自动列出 `articles/` 目录——**新增/删除 `.md` 直接生效**，不用再维护 `articles/list.json`。
-`list.json` 仅在本地预览/未配置 `githubRepo` 时作为回退。
+`articles/list.json` 由 **`scripts/gen-list.js` 自动生成**：在 `.github/workflows/pages.yml` 中，每次部署前都会运行
+`node scripts/gen-list.js`，扫描 `articles/*.md` 并重写清单。因此**新增/删除/重命名 `.md` 直接生效**，
+完全不用再手动维护 `list.json`。
+
+> 本地预览时，若你直接新增了 `.md` 而没等部署，可手动运行一次：
+> ```bash
+> node scripts/gen-list.js
+> ```
+> 让本地 `list.json` 先同步，避免本地 `python -m http.server` 预览时列表不同步。
 
 ## 本地预览
 

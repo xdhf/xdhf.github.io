@@ -11,7 +11,7 @@ window.SITE_CONFIG = {
   avatarText: "D",            // 头像占位文字（建议取昵称首字）
   avatarImage: "assets/avatar.jpg",  // 头像图片（相对站点根目录；留空则显示上面 avatarText 的首字）
   role: "AI for Science",    // 身份 / 角色（显示在名字下方）
-  githubRepo: "xdhf/xdhf.github.io", // GitHub 用户名/仓库名。文章列表优先读取 articles/list.json（同源、稳定）；仅当 list.json 缺失时，才用 GitHub API 自动列出 articles/*.md 作为回退
+  githubRepo: "xdhf/xdhf.github.io", // GitHub 用户名/仓库名。文章列表由 articles/list.json 提供（部署时 GitHub Actions 运行 scripts/gen-list.js 自动生成）；仅当 list.json 缺失时才用 GitHub API 列出 articles/*.md 作为回退
 
   /* ---------- 个人档案链接（头像右侧） ---------- */
   github: "https://github.com/xdhf",                 // GitHub 主页地址
